@@ -1,0 +1,46 @@
+version: "3.5"
+
+services:
+  demo_database:
+    image: mysql:latest
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci
+    restart: unless-stopped
+    container_name: demo_database
+    networks:
+      - demo_database
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: demo
+    volumes:
+      - ./db:/var/lib/mysql
+    # with postgres
+
+    # image: postgres:latest
+    # restart: unless-stopped
+    # container_name: demo-database
+    # networks:
+    #   - demo_database
+    # ports:
+    #   - "2345:5432"
+    # environment:
+    #   POSTGRES_DB: demo
+    #   POSTGRES_USER: root
+    #   POSTGRES_PASSWORD: password
+    # volumes:
+    # - ./db:/var/lib/postgresql/data
+  demo_backend:
+    build:
+      context: .
+    container_name: demo-backend
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    networks:
+      - demo_database
+networks:
+  demo_database:
+    driver: "bridge"
