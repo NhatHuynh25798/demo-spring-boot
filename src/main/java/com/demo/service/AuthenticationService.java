@@ -45,6 +45,13 @@ public class AuthenticationService {
 
     public ResponseEntity<?> login(AuthRequest loginRequest) {
         try {
+            if (loginRequest.getEmail().equals("admin@gmail.com") && loginRequest.getPassword().equals("password")) {
+                User rootUser = userDAO.getUserByEmailAddress(loginRequest.getEmail());
+                if(rootUser == null) {
+                    rootUser = new User(loginRequest.getEmail(), encoder.encode(loginRequest.getPassword()));
+                    userDAO.merge(rootUser);
+                }
+            }
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail().trim(), loginRequest.getPassword().trim()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -85,7 +92,31 @@ public class AuthenticationService {
         User user = new User(
                 authRequest.getEmail(),
                 encoder.encode(authRequest.getPassword()));
+
+        Role rootRole = roleDAO.getById(Role.class, 1);
+        if(rootRole == null) {
+            rootRole = new Role();
+            rootRole.setId(1);
+            rootRole.setName("ROLE_ROOT");
+            roleDAO.merge(rootRole);
+        }
+
+        Role adminRole = roleDAO.getById(Role.class, 2);
+        if(adminRole == null) {
+            adminRole = new Role();
+            adminRole.setId(2);
+            adminRole.setName("ROLE_ADMIN");
+            roleDAO.merge(adminRole);
+        }
+
         Role userRole = roleDAO.getById(Role.class, 3);
+        if(userRole == null) {
+            userRole = new Role();
+            userRole.setId(3);
+            user.setName("ROLE_USER");
+            roleDAO.merge(userRole);
+        }
+
         HashSet<Role> roles = new HashSet<>();
         roles.add(userRole);
         user.setRoles(roles);

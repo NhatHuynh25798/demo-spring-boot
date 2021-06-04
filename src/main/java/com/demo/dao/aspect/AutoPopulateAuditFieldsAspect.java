@@ -61,6 +61,10 @@ public class AutoPopulateAuditFieldsAspect {
                     baseEntity.getClass().getMethod(SystemUtils.getInstance()
                             .buildFieldSetter(AUDIT_FIELD_NAME_DATE_CREATED), Date.class).invoke(baseEntity, dateToSet);
                 }
+                if(baseEntity.getDisplayToUser() != null) {
+                    baseEntity.getClass().getMethod(SystemUtils.getInstance()
+                            .buildFieldSetter(AUDIT_FIELD_NAME_DISPLAY), Boolean.class).invoke(baseEntity, true);
+                }
                 baseEntity.getClass().getMethod(SystemUtils.getInstance()
                         .buildFieldSetter(AUDIT_FIELD_NAME_DATE_UPDATED), Date.class).invoke(baseEntity, dateToSet);
             }
