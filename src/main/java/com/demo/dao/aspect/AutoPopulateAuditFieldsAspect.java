@@ -57,8 +57,12 @@ public class AutoPopulateAuditFieldsAspect {
                         .buildFieldSetter(AUDIT_FIELD_NAME_DISPLAY), Boolean.class).invoke(baseEntity, true);
             }
             if (type.equals("merge")) {
+                if(baseEntity.getCreatedAt() == null) {
+                    baseEntity.getClass().getMethod(SystemUtils.getInstance()
+                            .buildFieldSetter(AUDIT_FIELD_NAME_DATE_CREATED), Date.class).invoke(baseEntity, dateToSet);
+                }
                 baseEntity.getClass().getMethod(SystemUtils.getInstance()
-                        .buildFieldSetter(AUDIT_FIELD_NAME_DATE_CREATED), Date.class).invoke(baseEntity, dateToSet);
+                        .buildFieldSetter(AUDIT_FIELD_NAME_DATE_UPDATED), Date.class).invoke(baseEntity, dateToSet);
             }
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
