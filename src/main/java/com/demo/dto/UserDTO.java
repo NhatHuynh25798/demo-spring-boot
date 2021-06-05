@@ -34,7 +34,7 @@ public class UserDTO extends AbstractDTO implements UserDetails {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     private String birthday;
 
-    public UserDTO build(User user) {
+    public static UserDTO build(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setRoles(new ArrayList<>(user.getRoles()));
         if(user.getRoles() != null && user.getRoles().size() > 0) {
@@ -48,9 +48,9 @@ public class UserDTO extends AbstractDTO implements UserDetails {
         return userDTO;
     }
 
-    public ArrayList<UserDTO> build(ArrayList<User> users) {
+    public static ArrayList<UserDTO> build(ArrayList<User> users) {
         ArrayList<UserDTO> dtos = new ArrayList<>();
-        users.forEach(user -> dtos.add(new UserDTO().build(user)));
+        users.forEach(user -> dtos.add(UserDTO.build(user)));
         return dtos;
     }
 

@@ -23,13 +23,13 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDTO getUserByEmail(String email) {
-        return new UserDTO().build(userDAO.getUserByEmailAddress(email));
+        return UserDTO.build(userDAO.getUserByEmailAddress(email));
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User res = userDAO.getUserByEmailAddress(email);
-        return new UserDTO().build(res);
+        return UserDTO.build(res);
     }
 
     public PagingDTO<UserDTO> getUsersInPage(int page, int limit) {
