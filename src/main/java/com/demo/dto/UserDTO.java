@@ -5,6 +5,7 @@ import com.demo.model.Role;
 import com.demo.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,13 +36,6 @@ public class UserDTO extends AbstractDTO implements UserDetails {
 
     public UserDTO build(User user) {
         UserDTO userDTO = new UserDTO();
-        super.build(userDTO, user);
-        userDTO.setEmail(user.getEmail());
-        userDTO.setPassword(user.getPassword());
-        if (user.getPhone() != null) userDTO.setPhone(user.getPhone());
-        if (user.getGender() != null) userDTO.setGender(user.getGender());
-        if (user.getBirthDay() != null) userDTO.setBirthday(user.getBirthDay());
-        if (user.getAvatar() != null) userDTO.setAvatar(user.getAvatar());
         userDTO.setRoles(new ArrayList<>(user.getRoles()));
         if(user.getRoles() != null && user.getRoles().size() > 0) {
             userDTO.setRoles(new ArrayList<>(user.getRoles()));
@@ -50,6 +44,7 @@ public class UserDTO extends AbstractDTO implements UserDetails {
                     .collect(Collectors.toList());
             userDTO.setAuthorities(authorities);
         }
+        BeanUtils.copyProperties(user, userDTO);
         return userDTO;
     }
 

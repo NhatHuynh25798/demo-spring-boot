@@ -1,6 +1,5 @@
 package com.demo.dto;
 
-import com.demo.model.AbstractModel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.Temporal;
@@ -8,10 +7,10 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 
 public class AbstractDTO {
-    protected int id;
+    protected Integer id;
     protected String name;
-    protected int createdBy;
-    protected int updatedBy;
+    protected Integer createdBy;
+    protected Integer updatedBy;
     protected boolean display;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -22,21 +21,11 @@ public class AbstractDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     protected Date updatedAt;
 
-    public void build(AbstractDTO abstractDTO, AbstractModel model) {
-        abstractDTO.setId(model.getId());
-        if(model.getName() != null) abstractDTO.setName(model.getName());
-        if(model.getCreatedAt() != null) abstractDTO.setCreatedAt(model.getCreatedAt());
-        if(model.getUpdatedAt() != null) abstractDTO.setUpdatedAt(model.getUpdatedAt());
-        if(model.getCreatedBy() != null) abstractDTO.setCreatedBy(model.getCreatedBy());
-        if(model.getUpdatedBy() != null)abstractDTO.setUpdatedBy(model.getUpdatedBy());
-        if(model.getDisplayToUser() != null) abstractDTO.setDisplay(model.getDisplayToUser());
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -64,19 +53,19 @@ public class AbstractDTO {
         this.updatedAt = updatedAt;
     }
 
-    public int getCreatedBy() {
+    public Integer getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(int createdBy) {
+    public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
     }
 
-    public int getUpdatedBy() {
+    public Integer getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(int updatedBy) {
+    public void setUpdatedBy(Integer updatedBy) {
         this.updatedBy = updatedBy;
     }
 
