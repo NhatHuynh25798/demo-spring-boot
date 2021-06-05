@@ -113,7 +113,7 @@ public class AuthenticationService {
         if(userRole == null) {
             userRole = new Role();
             userRole.setId(3);
-            user.setName("ROLE_USER");
+            userRole.setName("ROLE_USER");
             roleDAO.merge(userRole);
         }
 
